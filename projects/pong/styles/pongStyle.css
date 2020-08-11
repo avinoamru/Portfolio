@@ -1,1 +1,11 @@
-/* No CSS *//*# sourceMappingURL=pongStyle.css.map */
+body{
+    overflow: hidden;
+    background-color: black;
+}
+.canvas-container{
+    margin-top: auto;
+    margin-left: auto;
+    transform: translate(2.5%,1%);
+    
+
+}
