@@ -17,12 +17,15 @@ var Player = /** @class */ (function () {
 var Ball = {
     x: winWidth / 2,
     y: winHeight / 2,
-    radius: null
+    radius: null,
+    vel: 10
 };
 var player1 = new Player(50, winHeight / 2);
 var player2 = new Player(winWidth - 50, winHeight / 2);
 Ball.radius = player1.height / 8;
 window.addEventListener("keydown", function (e) {
+    if (e.keyCode === 32)
+        return;
     switch (e.key) {
         case "ArrowUp":
             player1.positionY -= winHeight / 100;
@@ -31,9 +34,11 @@ window.addEventListener("keydown", function (e) {
             player1.positionY += winHeight / 100;
             break;
         default:
-            console.log("Invalid key: " + e.key);
+            console.log("Invalid key: ''" + e.key + "''");
     }
 });
+var random = Math.floor(Math.random() * 2) + 1;
+console.log(random);
 var Game = function () {
     winWidth = window.innerWidth * 0.95;
     winHeight = window.innerHeight * 0.95;
@@ -47,6 +52,16 @@ var Game = function () {
     ctx.fillRect(player2.positionX, player2.positionY, player2.width, player2.height);
     ctx.arc(Ball.x, Ball.y, Ball.radius, 0, Math.PI * 2, false);
     ctx.fill();
-    requestAnimationFrame(Game);
+    (function ballMovement() {
+        if (random === 1)
+            Ball.vel = -Ball.vel;
+        console.log(Ball.vel);
+        Ball.x += Ball.vel;
+    })();
+    var gameAnimation = requestAnimationFrame(Game);
+    window.addEventListener("keypress", function (e) {
+        if (e.keyCode === 32)
+            cancelAnimationFrame(gameAnimation);
+    });
 };
 Game();
